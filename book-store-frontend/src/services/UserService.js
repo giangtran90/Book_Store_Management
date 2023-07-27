@@ -7,6 +7,10 @@ class UserService {
     registerUser(user){
         return axios.post(USER_API_BASE_URL + "users", user);
     }
+
+    loginByEmailAndPassword(login){
+        return axios.post(USER_API_BASE_URL + "login", login);
+    }
 }
 
 export default new UserService()
