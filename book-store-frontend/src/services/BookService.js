@@ -11,6 +11,10 @@ class BookService {
     getAllBooks(){
         return axios.get(BOOK_API_BASE_URL);
     }
+
+    deleteBook(id) {
+        return axios.delete(BOOK_API_BASE_URL + "/" + id);
+    }
 }
 
 export default new BookService()

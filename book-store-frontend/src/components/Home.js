@@ -24,6 +24,17 @@ const Home = () => {
     };
     fetchBooks();
   }, [])
+
+  const deleteBook = (e,id) => {
+    e.preventDefault();
+    BookService.deleteBook(id).then((response) => {
+      if (books){
+        setBooks((prevElement) => {
+          return prevElement.filter((book) => book.id !== id);
+        })
+      }
+    })
+  }
   
   return (
     <div className='container mx-auto my-8'>
@@ -43,7 +54,7 @@ const Home = () => {
           {!loading && (
             <tbody className='bg-white'>
               {books.map((book) => (
-                <Book book={book} key={book.id}></Book>
+                <Book book={book} deleteBook={deleteBook} key={book.id}></Book>
               ))}
             </tbody>
           )}
