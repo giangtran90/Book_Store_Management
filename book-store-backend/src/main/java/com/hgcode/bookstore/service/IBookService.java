@@ -8,4 +8,6 @@ public interface IBookService {
     Book createBook(Book book);
 
     List<Book> getAllBooks();
+
+    Boolean deleteBook(Long id);
 }

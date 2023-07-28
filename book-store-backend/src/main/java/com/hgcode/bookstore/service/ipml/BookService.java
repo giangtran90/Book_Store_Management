@@ -33,4 +33,11 @@ public class BookService implements IBookService {
                 )).collect(Collectors.toList());
         return books;
     }
+
+    @Override
+    public Boolean deleteBook(Long id) {
+        BookEntity bookEntity = bookRepository.findById(id).get();
+        bookRepository.delete(bookEntity);
+        return true;
+    }
 }

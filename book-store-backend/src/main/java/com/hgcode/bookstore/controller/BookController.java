@@ -6,7 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -24,5 +26,14 @@ public class BookController {
     @GetMapping("/books")
     public List<Book> getAllBooks(){
         return bookService.getAllBooks();
+    }
+
+    @DeleteMapping("/books/{id}")
+    public ResponseEntity<Map<String,Boolean>> deleteBook(@PathVariable Long id){
+        Boolean deleted = false;
+        deleted = bookService.deleteBook(id);
+        Map<String,Boolean> response = new HashMap<>();
+        response.put("deleted",deleted);
+        return ResponseEntity.ok(response);
     }
 }
