@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import BookService from '../services/BookService';
 import Book from './Book';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+  
+  const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
   const [books, setBooks] = useState(null);
@@ -25,7 +28,7 @@ const Home = () => {
   return (
     <div className='container mx-auto my-8'>
       <div className='h-12'>
-        <button className='rounder bg-slate-600 text-white px-6 py-2 font-semibold'>Add Book</button>
+        <button onClick={() => navigate("/addBook")} className='rounder bg-slate-600 text-white px-6 py-2 font-semibold'>Add Book</button>
       </div>
       <div className='flex shadow border-b'>
         <table className='min-w-full'>

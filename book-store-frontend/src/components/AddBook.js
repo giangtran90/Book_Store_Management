@@ -20,11 +20,15 @@ const AddBook = () => {
 
     const saveBook = (e) => {
         e.preventDefault();
-        BookService.createBook(book).then((response) => {
-            navigate("/home");
-        }).catch((error) => {
-            console.log(error);
-        })
+        if (book.desciption == null || book.name == null || book.price == null){
+            BookService.createBook(book).then((response) => {
+                navigate("/home");
+            }).catch((error) => {
+                console.log(error);
+            })
+        } else {
+            alert ("Please input!")
+        }   
     }
 
     const clearBook = (e) => {
@@ -58,6 +62,7 @@ const AddBook = () => {
             <div className='items-center justify-center h-14 w-full my-4 space-x-3 pt-4'>
                 <button onClick={saveBook} className='rounded text-white font-semibold bg-green-400 hover:bg-green-700 px-6 py-2'>Save</button>
                 <button onClick={clearBook} className='rounded text-white font-semibold bg-red-400 hover:bg-red-700 px-6 py-2'>Clear</button>
+                <button onClick={() => {navigate("/home")}} className='rounded text-white font-semibold bg-blue-400 hover:bg-blue-700 px-6 py-2'>Cancel</button>
             </div>
         </div>
     </div>
