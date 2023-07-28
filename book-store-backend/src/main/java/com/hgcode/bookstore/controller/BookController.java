@@ -3,7 +3,10 @@ package com.hgcode.bookstore.controller;
 import com.hgcode.bookstore.model.Book;
 import com.hgcode.bookstore.service.IBookService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -16,5 +19,10 @@ public class BookController {
     @PostMapping("/books")
     public Book createBook(@RequestBody Book book){
         return bookService.createBook(book);
+    }
+
+    @GetMapping("/books")
+    public List<Book> getAllBooks(){
+        return bookService.getAllBooks();
     }
 }

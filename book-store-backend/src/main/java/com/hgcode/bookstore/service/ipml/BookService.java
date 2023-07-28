@@ -8,6 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class BookService implements IBookService {
@@ -19,5 +22,15 @@ public class BookService implements IBookService {
         BeanUtils.copyProperties(book,bookEntity);
         bookRepository.save(bookEntity);
         return book;
+    }
+
+    @Override
+    public List<Book> getAllBooks() {
+        List<BookEntity> bookEntities = bookRepository.findAll();
+        List<Book> books = bookEntities.stream()
+                .map(book -> new Book(
+                        book.getId(),book.getName(),book.getDescription(),book.getPrice()
+                )).collect(Collectors.toList());
+        return books;
     }
 }
