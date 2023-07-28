@@ -8,6 +8,9 @@ class BookService {
         return axios.post(BOOK_API_BASE_URL, book);
     }
 
+    getAllBooks(){
+        return axios.get(BOOK_API_BASE_URL);
+    }
 }
 
 export default new BookService()
