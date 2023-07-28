@@ -19,6 +19,10 @@ class BookService {
     getBookById(id) {
         return axios.get(BOOK_API_BASE_URL + "/" + id);
     }
+
+    updateBook(id,book) {
+        return axios.put(BOOK_API_BASE_URL + "/" + id, book);
+    }
 }
 
 export default new BookService()

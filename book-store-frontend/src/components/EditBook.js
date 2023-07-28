@@ -32,6 +32,15 @@ const EditBook = () => {
         fetchData();
     }, [])
 
+    const updateBook = (e) => {
+        e.preventDefault();
+        BookService.updateBook(id,book).then((response) => {
+            navigate("/home");
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+
   return (
     <div className='flex max-w-xl mx-auto shadow border-b'>
         <div className='px-5 py-5'>
@@ -51,7 +60,7 @@ const EditBook = () => {
                 <input type='number' name='price' value={book.price} onChange={(e) => handleChange(e)} className='h-10 w-96 border mt-2 px-2 py-2'></input>
             </div>
             <div className='items-center justify-center h-14 w-full my-4 space-x-3 pt-4'>
-                <button className='rounded text-white font-semibold bg-green-400 hover:bg-green-700 px-6 py-2'>Save</button>
+                <button onClick={updateBook} className='rounded text-white font-semibold bg-green-400 hover:bg-green-700 px-6 py-2'>Save</button>
                 <button onClick={() => {navigate("/home")}} className='rounded text-white font-semibold bg-blue-400 hover:bg-blue-700 px-6 py-2'>Cancel</button>
             </div>
         </div>
