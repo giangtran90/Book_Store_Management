@@ -12,4 +12,6 @@ public interface IBookService {
     Boolean deleteBook(Long id);
 
     Book getBookById(Long id);
+
+    Book updateBook(Long id, Book book);
 }

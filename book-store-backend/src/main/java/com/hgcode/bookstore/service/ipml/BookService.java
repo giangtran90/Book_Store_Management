@@ -48,4 +48,14 @@ public class BookService implements IBookService {
         BeanUtils.copyProperties(bookEntity,book);
         return book;
     }
+
+    @Override
+    public Book updateBook(Long id, Book book) {
+        BookEntity bookEntity = bookRepository.findById(id).get();
+        bookEntity.setName(book.getName());
+        bookEntity.setDescription(book.getDescription());
+        bookEntity.setPrice(book.getPrice());
+        bookRepository.save(bookEntity);
+        return book;
+    }
 }
