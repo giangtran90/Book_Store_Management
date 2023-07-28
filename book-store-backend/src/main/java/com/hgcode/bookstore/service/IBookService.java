@@ -10,4 +10,6 @@ public interface IBookService {
     List<Book> getAllBooks();
 
     Boolean deleteBook(Long id);
+
+    Book getBookById(Long id);
 }

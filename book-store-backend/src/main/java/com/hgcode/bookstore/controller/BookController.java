@@ -3,6 +3,7 @@ package com.hgcode.bookstore.controller;
 import com.hgcode.bookstore.model.Book;
 import com.hgcode.bookstore.service.IBookService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,5 +36,11 @@ public class BookController {
         Map<String,Boolean> response = new HashMap<>();
         response.put("deleted",deleted);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/books/{id}")
+    public ResponseEntity<Book> getBookById(@PathVariable Long id){
+        Book book = bookService.getBookById(id);
+        return ResponseEntity.ok(book);
     }
 }

@@ -40,4 +40,12 @@ public class BookService implements IBookService {
         bookRepository.delete(bookEntity);
         return true;
     }
+
+    @Override
+    public Book getBookById(Long id) {
+        BookEntity bookEntity = bookRepository.findById(id).get();
+        Book book = new Book();
+        BeanUtils.copyProperties(bookEntity,book);
+        return book;
+    }
 }
