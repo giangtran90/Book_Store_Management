@@ -36,8 +36,9 @@ public class BookService implements IBookService {
 
     @Override
     public Boolean deleteBook(Long id) {
-        BookEntity bookEntity = bookRepository.findById(id).get();
-        bookRepository.delete(bookEntity);
+//        BookEntity bookEntity = bookRepository.findById(id).get();
+//        bookRepository.delete(bookEntity);
+        bookRepository.deleteById(id);
         return true;
     }
 

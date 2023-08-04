@@ -7,7 +7,9 @@ import com.hgcode.bookstore.service.IBookService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Answers;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.BeanUtils;
 
@@ -16,8 +18,7 @@ import java.util.Collections;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class BookServiceTest {
 
@@ -70,7 +71,14 @@ class BookServiceTest {
     }
 
     @Test
-    void deleteBook() {
+    void testDeleteBook() {
+        mock(BookEntity.class);
+        mock(IBookRepository.class, Mockito.CALLS_REAL_METHODS);
+
+        doAnswer(Answers.CALLS_REAL_METHODS).when(bookRepository)
+                .deleteById(any());
+
+        assertThat(bookService.deleteBook(1L)).isTrue();
     }
 
     @Test
