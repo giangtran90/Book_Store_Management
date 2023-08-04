@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @DataJpaTest
@@ -15,30 +17,40 @@ class IUserRepositoryTest {
     @Autowired
     private IUserRepository userRepository;
 
-    UserEntity userEntity;
+    UserEntity userEntityOne;
+    UserEntity userEntityTwo;
 
     @BeforeEach
     void setUp() {
-        userEntity = new UserEntity(1L,"giang","giang@gmail.com","123456");
-        userRepository.save(userEntity);
+        userEntityOne = new UserEntity(1L,"giang","giang@gmail.com","123456");
+        userEntityTwo = new UserEntity(2L,"giang1","giang1@gmail.com","123456");
+        userRepository.save(userEntityOne);
+        userRepository.save(userEntityTwo);
     }
 
     @AfterEach
     void tearDown() {
-        userEntity = null;
+        userEntityOne = null;
+        userEntityTwo = null;
         userRepository.deleteAll();
     }
 
     // Test case Success
     @Test
     void testFindByEmail_Found() {
-        UserEntity userEntity1 = userRepository.findByEmail("giang@gmail.com");
-        assertThat(userEntity1.getId()).isEqualTo(userEntity.getId());
+        UserEntity userEntity = userRepository.findByEmail("giang@gmail.com");
+        assertThat(userEntity.getUsername()).isEqualTo(userEntityOne.getUsername());
     }
     // Test case Failure
     @Test
     void testFindByEmail_NotFound() {
-        UserEntity userEntity1 = userRepository.findByEmail("giang1@gmail.com");
-        assertThat(userEntity1).isEqualTo(null);
+        UserEntity userEntity = userRepository.findByEmail("giang2@gmail.com");
+        assertThat(userEntity).isEqualTo(null);
+    }
+
+    @Test
+    void testFindOneByEmailAndPassword() {
+        Optional<UserEntity> userEntity = userRepository.findOneByEmailAndPassword("giang1@gmail.com","123456");
+        assertThat(userEntity.get().getUsername()).isEqualTo(userEntityTwo.getUsername());
     }
 }
