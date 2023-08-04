@@ -1,5 +1,9 @@
 package com.hgcode.bookstore.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.hgcode.bookstore.entity.BookEntity;
 import com.hgcode.bookstore.model.Book;
 import com.hgcode.bookstore.service.IBookService;
@@ -11,14 +15,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -56,7 +60,14 @@ class BookControllerTest {
     }
 
     @Test
-    void createBook() {
+    void testCreateBook() throws Exception {
+        String requestJson = writeValueAsString(bookOne);
+        when(bookService.createBook(bookOne)).thenReturn(bookOne);
+        this.mockMvc.perform(post("/api/v1/books")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(requestJson))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -85,5 +96,13 @@ class BookControllerTest {
 
     @Test
     void updateBook() {
+    }
+
+    private String writeValueAsString(Book book) throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(SerializationFeature.WRAP_ROOT_VALUE,false);
+
+        ObjectWriter objectWriter = objectMapper.writer().withDefaultPrettyPrinter();
+        return objectWriter.writeValueAsString(book);
     }
 }
