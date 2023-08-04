@@ -11,6 +11,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.BeanUtils;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -61,7 +63,12 @@ class BookServiceTest {
     }
 
     @Test
-    void getBookById() {
+    void testGetBookById() {
+        mock(BookEntity.class);
+        mock(IBookRepository.class);
+        when(bookRepository.findById(1L)).thenReturn(Optional.ofNullable(bookEntity));
+
+        assertThat(bookService.getBookById(1L).getName()).isEqualTo(bookEntity.getName());
     }
 
     @Test
