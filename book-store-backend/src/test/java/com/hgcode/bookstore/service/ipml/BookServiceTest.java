@@ -30,8 +30,10 @@ class BookServiceTest {
     AutoCloseable autoCloseable;
 
     BookEntity bookEntity;
+    BookEntity bookEntityUpdate;
 
     Book book;
+    Book bookUpdate;
 
     @BeforeEach
     void setUp() {
@@ -91,6 +93,17 @@ class BookServiceTest {
     }
 
     @Test
-    void updateBook() {
+    void testUpdateBook() {
+        bookUpdate = new Book(1L,"Sinh","Sach Sinh",30000);
+        bookEntityUpdate = new BookEntity();
+        BeanUtils.copyProperties(bookUpdate,bookEntityUpdate);
+
+        mock(BookEntity.class);
+        mock(IBookRepository.class);
+
+        when(bookRepository.findById(1L)).thenReturn(Optional.ofNullable(bookEntity));
+        when(bookRepository.save(bookEntityUpdate)).thenReturn(bookEntityUpdate);
+
+        assertThat(bookService.updateBook(1L,bookUpdate)).isEqualTo(bookUpdate);
     }
 }
