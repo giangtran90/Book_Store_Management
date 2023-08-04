@@ -11,6 +11,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.BeanUtils;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -55,7 +57,16 @@ class BookServiceTest {
     }
 
     @Test
-    void getAllBooks() {
+    void testGetAllBooks() {
+        mock(BookEntity.class);
+        mock(IBookRepository.class);
+
+        when(bookRepository.findAll()).thenReturn(
+                new ArrayList<BookEntity>(Collections.singleton(bookEntity))
+        );
+
+        assertThat(bookService.getAllBooks().get(0).getName())
+                .isEqualTo(bookEntity.getName());
     }
 
     @Test
