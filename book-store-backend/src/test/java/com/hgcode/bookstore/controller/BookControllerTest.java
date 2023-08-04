@@ -1,6 +1,5 @@
 package com.hgcode.bookstore.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -95,7 +94,15 @@ class BookControllerTest {
     }
 
     @Test
-    void updateBook() {
+    void testUpdateBook() throws Exception {
+        Book bookUpdate = new Book(1L,"Hoa","sach Hoa", 25000);
+        String requestJson = writeValueAsString(bookUpdate);
+        when(bookService.updateBook(1L,bookUpdate)).thenReturn(bookUpdate);
+        this.mockMvc.perform(put("/api/v1/books/1")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(requestJson))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
     private String writeValueAsString(Book book) throws Exception {
