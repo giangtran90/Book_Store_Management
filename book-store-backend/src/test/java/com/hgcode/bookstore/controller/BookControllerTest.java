@@ -59,8 +59,11 @@ class BookControllerTest {
     }
 
     @Test
-    void getAllBooks() {
-
+    void testGetAllBooks() throws Exception {
+        when(bookService.getAllBooks()).thenReturn(books);
+        this.mockMvc.perform(get("/api/v1/books"))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
     @Test
