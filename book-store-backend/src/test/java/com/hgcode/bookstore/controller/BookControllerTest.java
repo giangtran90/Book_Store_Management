@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -67,7 +68,11 @@ class BookControllerTest {
     }
 
     @Test
-    void deleteBook() {
+    void testDeleteBook() throws Exception{
+        when(bookService.deleteBook(1L)).thenReturn(true);
+        this.mockMvc.perform(delete("/api/v1/books/1"))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
     @Test
